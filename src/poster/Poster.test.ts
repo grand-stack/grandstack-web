@@ -1,0 +1,12 @@
+import { describe, expect, it } from "vitest";
+import { hash, posterStyle } from "./Poster";
+
+describe("poster", () => {
+  it("is deterministic per title", () => {
+    expect(posterStyle("Inception", "Sci-Fi")).toEqual(posterStyle("Inception", "Sci-Fi"));
+    expect(hash("a")).not.toBe(hash("b"));
+  });
+  it("differs between titles", () => {
+    expect(posterStyle("Inception", "Sci-Fi")).not.toEqual(posterStyle("Interstellar", "Sci-Fi"));
+  });
+});
