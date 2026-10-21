@@ -2,7 +2,7 @@
 
 grandstack-web is a single-page React app that talks to grandstack-server over GraphQL. It is a movie and people search, filter, compare and edit app, written to show what a GraphQL-on-Neo4j front end looks like and to be adapted to your own data.
 
-Applies to grandstack-web v0.5.0 (React 19, Vite 8, urql 5, GraphQL Code Generator, TypeScript).
+Applies to grandstack-web v0.5.1 (React 19, Vite 8, urql 5, GraphQL Code Generator, TypeScript).
 
 ## Stack
 
@@ -61,13 +61,15 @@ Titles and names are the keys, so they appear URL-encoded in paths (`/people/Tim
 
 State lives in the **URL**, not in component state, for anything a user might want to share or reload:
 
-```
-URL query string  --parseFilters-->  Filters object
-Filters  --buildWhere / buildSort-->  GraphQL variables (MovieWhere, [MovieSort])
-variables + typed document  --urql-->  server  -->  typed result
-result  -->  components
-user changes a filter  -->  setSearchParams(serializeFilters(next))   (back to the top)
-```
+[![In grandstack-web the URL query string is parsed into a Filters object, turned into typed GraphQL variables, sent with urql, rendered, and any filter change is written back to the URL.](diagrams/url-state-data-flow.svg)](diagrams/url-state-data-flow.svg)
+
+*Figure: one loop from the URL to the screen and back. Click the image for full size; the numbered notes below carry the same information as text.*
+
+1. **The URL is the source of truth.** Filters live in the query string (`g`, `d`, `r`, `rt`, `p`, `s`, `q`), so results are shareable, reloadable and work with the back button.
+2. **Pure functions in the middle.** `parseFilters`, `buildWhere` and `buildSort` turn the query string into the `where` and `sort` variables; they are unit-tested. `buildWhere` can leave one facet out, which is how facet counts work.
+3. **Typed documents.** Every operation is written with `graphql()` and typed by `npm run codegen` against the live schema, so a wrong field fails at codegen or `tsc`.
+4. **Components only render and emit events.** A changed filter calls `serializeFilters` and `setSearchParams`, which closes the loop. Text inputs keep local state and debounce the URL update, otherwise fast typing drops characters.
+5. **Almost nothing else is stored.** Only the compare list and the theme are kept in `localStorage`.
 
 - `src/lib/filters.ts` owns the movie filters (`q`, `g` genres, `d` decades, `r` minimum rating, `rt` maximum runtime, `p` person, `s` sort). `src/lib/peopleFilters.ts` owns the people filters (`q`, `role`, `mf` minimum films, `s`). Both are pure functions with unit tests.
 - Text inputs that write to the URL keep **local state and debounce** the URL update (see `People.tsx`). Binding an input straight to the URL drops characters when typing fast, because the URL update is asynchronous.

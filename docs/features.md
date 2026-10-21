@@ -7,6 +7,16 @@ Each section says what the user sees, where the code is, and the one non-obvious
 Code: `src/pages/Results.tsx`, `src/search/FilterSidebar.tsx`, `src/lib/filters.ts`.
 
 - Filters: title text, genres (several), decades (several), minimum rating, maximum runtime, and a person (cast or director). Sort: rating, newest, oldest, title, shortest.
+
+[![One Results operation carries three where inputs: where for the movies and total, genreWhere (filters minus genres) for genre counts, and decadeWhere (filters minus decades) for decade counts.](diagrams/search-facets-sequence.svg)](diagrams/search-facets-sequence.svg)
+
+*Figure: how one request returns the movies, the total and every filter option's count. Click the image for full size; the numbered notes below carry the same information as text.*
+
+1. **`where`.** All active filters: used for the results grid and the total in the heading.
+2. **`genreWhere`.** The filters without the genre filter, used to count each genre option.
+3. **`decadeWhere`.** The filters without the decade filter, used to count each decade (nine aliased fields in the same operation).
+4. **Why "as if the filter were off".** Ticking Drama still shows how many films each other genre would give; options are not hidden by their own selection, and an option with 0 stays disabled.
+5. **`$decadeWhere` is non-null.** It is used inside a list literal, so it is declared `MovieWhere!` and the app always sends `{}` rather than `null`.
 - **Facet counts respect the other filters.** Results is one GraphQL operation with several fields:
   - `movies(where: $where, ...)` and `moviesConnection(where: $where) { totalCount }` for the results and the total;
   - `genres { name moviesConnection(where: { node: $genreWhere }) { totalCount } }`, where `$genreWhere` is the current filters **without** the genre filter, so selecting Drama still shows how many films each other genre would give;

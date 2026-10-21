@@ -39,4 +39,4 @@ Set `VITE_GRAPHQL_URL` to use a different server (it must be reachable from the 
 
 Working with a coding agent? Start with [AGENTS.md](AGENTS.md).
 
-The movie data is sample data with approximate ratings. Last verified: v0.5.0 against grandstack-server v0.6.0.
+The movie data is sample data with approximate ratings. Last verified: v0.5.1 against grandstack-server v0.7.1.
