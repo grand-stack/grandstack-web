@@ -11,6 +11,8 @@ import "./styles.css";
 const client = new Client({
   url: import.meta.env.VITE_GRAPHQL_URL ?? "http://localhost:4000/graphql",
   exchanges: [cacheExchange, fetchExchange],
+  // Show cached data immediately but always refetch, so lists and counts are fresh after edits
+  requestPolicy: "cache-and-network",
 });
 
 createRoot(document.getElementById("root")!).render(

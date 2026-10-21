@@ -6,6 +6,7 @@ import { useCompare } from "../lib/compare";
 import { formatRuntime } from "../lib/filters";
 import { Poster } from "../poster/Poster";
 import { MovieCard } from "../search/MovieCard";
+import { DeleteMovieButton } from "../forms/DeleteButtons";
 import { Button, Chip, RatingBadge, Skeleton } from "../ui";
 
 const MovieQuery = graphql(`
@@ -73,6 +74,10 @@ export function MovieDetail() {
           <Button variant={selected ? "primary" : "secondary"} onClick={() => compare.toggle(movie.title)} disabled={!selected && compare.full}>
             {selected ? "In comparison ✓" : compare.full ? "Comparison full" : "Add to compare"}
           </Button>
+          <div className="form-actions manage">
+            <Link to={`/movies/${encodeURIComponent(movie.title)}/edit`}><Button type="button">Edit</Button></Link>
+            <DeleteMovieButton title={movie.title} />
+          </div>
         </div>
       </div>
 
@@ -82,7 +87,7 @@ export function MovieDetail() {
           {cast.map((c) => (
             <li key={c.name}>
               <Link to={`/people/${encodeURIComponent(c.name)}`}>{c.name}</Link>
-              <span className="muted">as {c.role}</span>
+              {c.role && <span className="muted">as {c.role}</span>}
             </li>
           ))}
         </ul>

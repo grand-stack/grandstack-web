@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { useQuery } from "urql";
+import { DeletePersonButton } from "../forms/DeleteButtons";
 import { PersonGraph } from "../graph/PersonGraph";
 import { graphql } from "../graphql/generated";
 import { Avatar } from "../ui/Avatar";
@@ -89,6 +90,10 @@ export function PersonDetail() {
             {s.topGenres.map(([g, n]) => <Link key={g} to={`/movies?g=${encodeURIComponent(g)}&p=${encodeURIComponent(person.name)}`}><Chip>{`${g} · ${n}`}</Chip></Link>)}
           </div>
           <Link to={`/movies?p=${encodeURIComponent(person.name)}`}>See their films in search results →</Link>
+          <div className="form-actions manage">
+            <Link to={`/people/${encodeURIComponent(person.name)}/edit`}><Button type="button">Edit</Button></Link>
+            <DeletePersonButton name={person.name} credits={(person.actedCount ?? 0) + (person.directedCount ?? 0)} />
+          </div>
         </div>
       </div>
 

@@ -19,6 +19,7 @@ React + Vite client for grandstack-server, styled as a car-site-style search, fi
 
 ## Structure
 - `src/lib/filters.ts`: filter state <-> URL query string, and `buildWhere` / `buildSort` (the GraphQL filter). Filters live in the URL so results are shareable.
+- `src/forms/`: create/edit/delete for movies and people. `model.ts` holds the pure, unit-tested logic (validation, `buildCreateInput`, `buildUpdateInput`, `friendlyError`); `MovieForm`, `PersonForm`, `PersonPicker` and `DeleteButtons` are the UI. Routes: `/movies/new`, `/movies/:title/edit`, `/people/new`, `/people/:name/edit`.
 - `src/pages/`: Home, Results (facets with counts), MovieDetail (graph, recommendations), People (browse), PersonDetail (stats, filmography, collaborators, graph), Compare, CreateMovie.
 - `src/lib/peopleFilters.ts`: people browse state <-> URL, and `buildPeopleWhere` / `buildPeopleSort`. People are keyed by name, so URLs are `/people/<encoded name>`.
 - `src/search/`: FilterSidebar, MovieCard, PersonCard. `src/ui/`: small shared components, including the generated initials `Avatar`. `src/poster/Poster.tsx`: generated poster art (no images).
@@ -29,8 +30,15 @@ React + Vite client for grandstack-server, styled as a car-site-style search, fi
 - Person film counts (`actedCount`, `directedCount`) are stored on the nodes by the seed, so People sorting and role filters work in plain GraphQL.
 - Text inputs that write to the URL must keep local state and debounce (see `People.tsx`), otherwise fast typing drops characters.
 
+## Editing data
+- Movie edits send a diff, not "disconnect all then reconnect": in v7 the disconnect runs after the connect and would remove the new links. `buildUpdateInput` disconnects removed people/genres, connects or creates added ones, and sends one `{ update: { where, edge } }` entry per changed role. Scalar changes use `{ set: value }` (`null` clears).
+- People and genres are keyed by name, so renaming changes the URL and a duplicate name is rejected (`friendlyError` turns the constraint error into a message).
+- `Person.actedCount` and `directedCount` are refreshed by the server after every mutation, so the UI needs no extra call.
+- The urql client uses `cache-and-network` so lists refetch after edits; edit forms use `network-only` so they never start from stale data.
+- There is no authentication yet. Edit screens show a banner and deletes ask for confirmation. The compare tray is hidden on form pages because it would cover the buttons.
+
 ## Design system
 The look follows Neo4j's Needle design system (Public Sans, blue/teal palette, dark and light themes), reimplemented in `src/theme/tokens.css` and `src/ui/`. The values are approximations, not checked against Needle. We deliberately do not use `@neo4j-ndl/*`: it is GPL-3.0 and this repo is Apache-2.0. Do not add it without changing this repo's licence.
 
 ## Tests
-`npm test` runs unit tests for the movie and people filter logic and the poster generator. `npm run typecheck` covers types, and `npm run codegen` fails on unknown fields.
+`npm test` runs unit tests for the movie and people filter logic, the form logic (validation and mutation inputs) and the poster generator. `npm run typecheck` covers types, and `npm run codegen` fails on unknown fields.

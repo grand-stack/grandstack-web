@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { useQuery } from "urql";
 import { graphql } from "../graphql/generated";
 import {
@@ -80,6 +80,7 @@ export function Results() {
             {stale && <span className="muted"> updating…</span>}
           </h1>
           <div className="results-controls">
+            <Link to="/movies/new"><Button variant="primary" type="button">Add movie</Button></Link>
             <Button className="show-filters" onClick={() => setShowFilters((s) => !s)}>Filters{count ? ` (${count})` : ""}</Button>
             <label className="sort">
               Sort

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { useQuery } from "urql";
 import { graphql } from "../graphql/generated";
 import {
@@ -78,6 +78,7 @@ export function People() {
             className="text-input people-search" placeholder="Search by name…" aria-label="Search people by name"
             value={text} onChange={(e) => setText(e.target.value)}
           />
+          <Link to="/people/new"><Button variant="primary" type="button">Add person</Button></Link>
           <label className="sort">
             Min films
             <select value={filters.minFilms ?? ""} onChange={(e) => update({ minFilms: e.target.value ? Number(e.target.value) : undefined })}>
