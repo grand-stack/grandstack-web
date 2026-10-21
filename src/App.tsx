@@ -6,6 +6,8 @@ import { Compare } from "./pages/Compare";
 import { CreateMovie } from "./pages/CreateMovie";
 import { Home } from "./pages/Home";
 import { MovieDetail } from "./pages/MovieDetail";
+import { People } from "./pages/People";
+import { PersonDetail } from "./pages/PersonDetail";
 import { Results } from "./pages/Results";
 import { Button } from "./ui";
 
@@ -39,6 +41,7 @@ function Header({ theme, toggleTheme }: { theme: Theme; toggleTheme: () => void 
       </form>
       <nav aria-label="Main">
         <NavLink to="/movies">Browse</NavLink>
+        <NavLink to="/people">People</NavLink>
         <NavLink to="/compare">Compare{compare.titles.length > 0 && <span className="badge">{compare.titles.length}</span>}</NavLink>
         <NavLink to="/new">Add</NavLink>
         <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>
@@ -89,6 +92,8 @@ export function App() {
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Results />} />
           <Route path="/movies/:title" element={<MovieDetail />} />
+          <Route path="/people" element={<People />} />
+          <Route path="/people/:name" element={<PersonDetail />} />
           <Route path="/compare" element={<Compare />} />
           <Route path="/new" element={<CreateMovie />} />
           <Route path="*" element={<div className="empty"><h2>Page not found</h2><Link to="/">Go home</Link></div>} />

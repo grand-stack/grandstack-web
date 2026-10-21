@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { useQuery } from "urql";
 import { graphql } from "../graphql/generated";
 import { MovieCard } from "../search/MovieCard";
+import { PersonCard } from "../search/PersonCard";
 import { Chip, Skeleton } from "../ui";
 
 const HomeQuery = graphql(`
@@ -11,6 +12,8 @@ const HomeQuery = graphql(`
     people: peopleConnection { totalCount }
     genres(sort: [{ name: ASC }]) { name moviesConnection { totalCount } }
     top: movies(sort: [{ rating: DESC }, { title: ASC }], limit: 10) { title released rating runtime genres { name } }
+    prolific: people(sort: [{ actedCount: DESC }, { name: ASC }], limit: 10) { name born actedCount directedCount }
+    directing: people(sort: [{ directedCount: DESC }, { name: ASC }], limit: 10) { name born actedCount directedCount }
     recent: movies(sort: [{ released: DESC }, { title: ASC }], limit: 10) { title released rating runtime genres { name } }
   }
 `);
@@ -45,6 +48,14 @@ export function Home() {
       </section>
 
       <Row title="Top rated" to="/movies" movies={data?.top} />
+      <section className="home-row">
+        <div className="row-head"><h2>Most prolific actors</h2><Link to="/people?role=actor">See all →</Link></div>
+        <div className="row people-row">{data ? data.prolific.map((p, i) => <PersonCard key={p.name} person={p} index={i} />) : Array.from({ length: 5 }, (_, i) => <Skeleton key={i} className="skeleton-person" />)}</div>
+      </section>
+      <section className="home-row">
+        <div className="row-head"><h2>Most prolific directors</h2><Link to="/people?role=director&s=films">See all →</Link></div>
+        <div className="row people-row">{data ? data.directing.map((p, i) => <PersonCard key={p.name} person={p} index={i} />) : Array.from({ length: 5 }, (_, i) => <Skeleton key={i} className="skeleton-person" />)}</div>
+      </section>
       <Row title="Newest" to="/movies?s=newest" movies={data?.recent} />
     </div>
   );

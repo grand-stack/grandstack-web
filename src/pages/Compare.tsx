@@ -63,13 +63,13 @@ export function Compare() {
             <tr><th scope="row">Released</th>{movies.map((m) => <td key={m.title}>{m.released}</td>)}</tr>
             <tr><th scope="row">Runtime</th>{movies.map((m) => <td key={m.title} className={m.runtime === shortest ? "best" : ""}>{formatRuntime(m.runtime)}</td>)}</tr>
             <tr><th scope="row">Genres</th>{movies.map((m) => <td key={m.title}>{m.genres.map((g) => g.name).join(", ")}</td>)}</tr>
-            <tr><th scope="row">Director</th>{movies.map((m) => <td key={m.title}>{m.directors.map((d) => d.name).join(", ")}</td>)}</tr>
+            <tr><th scope="row">Director</th>{movies.map((m) => <td key={m.title}>{m.directors.map((d, i) => <span key={d.name}>{i > 0 && ", "}<Link to={`/people/${encodeURIComponent(d.name)}`}>{d.name}</Link></span>)}</td>)}</tr>
             <tr>
               <th scope="row">Cast <small className="muted">(shared in bold)</small></th>
               {movies.map((m) => (
                 <td key={m.title}>
                   <ul className="plain">
-                    {m.actorsConnection.edges.map((e) => <li key={e.node.name} className={(castCount.get(e.node.name) ?? 0) > 1 ? "shared" : ""}>{e.node.name}</li>)}
+                    {m.actorsConnection.edges.map((e) => <li key={e.node.name} className={(castCount.get(e.node.name) ?? 0) > 1 ? "shared" : ""}><Link to={`/people/${encodeURIComponent(e.node.name)}`}>{e.node.name}</Link></li>)}
                   </ul>
                 </td>
               ))}

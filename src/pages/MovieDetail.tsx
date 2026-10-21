@@ -67,7 +67,7 @@ export function MovieDetail() {
           <dl className="facts">
             <dt>Directed by</dt>
             <dd>{movie.directors.length ? movie.directors.map((d, i) => (
-              <span key={d.name}>{i > 0 && ", "}<Link to={`/movies?p=${encodeURIComponent(d.name)}`}>{d.name}</Link></span>
+              <span key={d.name}>{i > 0 && ", "}<Link to={`/people/${encodeURIComponent(d.name)}`}>{d.name}</Link></span>
             )) : "Unknown"}</dd>
           </dl>
           <Button variant={selected ? "primary" : "secondary"} onClick={() => compare.toggle(movie.title)} disabled={!selected && compare.full}>
@@ -81,7 +81,7 @@ export function MovieDetail() {
         <ul className="cast">
           {cast.map((c) => (
             <li key={c.name}>
-              <Link to={`/movies?p=${encodeURIComponent(c.name)}`}>{c.name}</Link>
+              <Link to={`/people/${encodeURIComponent(c.name)}`}>{c.name}</Link>
               <span className="muted">as {c.role}</span>
             </li>
           ))}

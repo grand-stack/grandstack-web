@@ -19,15 +19,18 @@ React + Vite client for grandstack-server, styled as a car-site-style search, fi
 
 ## Structure
 - `src/lib/filters.ts`: filter state <-> URL query string, and `buildWhere` / `buildSort` (the GraphQL filter). Filters live in the URL so results are shareable.
-- `src/pages/`: Home, Results (facets with counts), MovieDetail (graph, recommendations), Compare, CreateMovie.
-- `src/search/`: FilterSidebar and MovieCard. `src/ui/`: small shared components. `src/poster/Poster.tsx`: generated poster art (no images).
-- `src/graph/MovieGraph.tsx`: force graph (react-force-graph-2d, MIT) of a movie's director, cast and genres.
+- `src/pages/`: Home, Results (facets with counts), MovieDetail (graph, recommendations), People (browse), PersonDetail (stats, filmography, collaborators, graph), Compare, CreateMovie.
+- `src/lib/peopleFilters.ts`: people browse state <-> URL, and `buildPeopleWhere` / `buildPeopleSort`. People are keyed by name, so URLs are `/people/<encoded name>`.
+- `src/search/`: FilterSidebar, MovieCard, PersonCard. `src/ui/`: small shared components, including the generated initials `Avatar`. `src/poster/Poster.tsx`: generated poster art (no images).
+- `src/graph/GraphView.tsx`: shared force graph (react-force-graph-2d, MIT). `MovieGraph.tsx` and `PersonGraph.tsx` build the nodes and links for each page.
 - `src/lib/compare.tsx`: compare selection (max 4) kept in localStorage.
 - Facet counts: genre counts use the current filters minus genres, decade counts minus decades (`$genreWhere`, `$decadeWhere` in `Results.tsx`).
-- Recommendations come from the server's `Movie.similar` field (a `@cypher` field), not from client code.
+- Recommendations come from the server's `Movie.similar` field, and collaborators from `Person.collaborators` (both `@cypher` fields), not from client code.
+- Person film counts (`actedCount`, `directedCount`) are stored on the nodes by the seed, so People sorting and role filters work in plain GraphQL.
+- Text inputs that write to the URL must keep local state and debounce (see `People.tsx`), otherwise fast typing drops characters.
 
 ## Design system
 The look follows Neo4j's Needle design system (Public Sans, blue/teal palette, dark and light themes), reimplemented in `src/theme/tokens.css` and `src/ui/`. The values are approximations, not checked against Needle. We deliberately do not use `@neo4j-ndl/*`: it is GPL-3.0 and this repo is Apache-2.0. Do not add it without changing this repo's licence.
 
 ## Tests
-`npm test` runs unit tests for the filter logic and poster generator. `npm run typecheck` covers types, and `npm run codegen` fails on unknown fields.
+`npm test` runs unit tests for the movie and people filter logic and the poster generator. `npm run typecheck` covers types, and `npm run codegen` fails on unknown fields.

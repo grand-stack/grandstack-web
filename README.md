@@ -4,6 +4,7 @@ A movie search, filter and compare app for [grandstack-server](../grandstack-ser
 
 - Faceted filters with live counts (genre, decade, rating, runtime, cast or director), URL-synced so results are shareable
 - Grid or list results, sorting, and side-by-side compare of up to 4 movies
+- A People browser (search, role filter, min films) and person pages with stats, filmography, frequent collaborators and a career graph
 - Movie pages with an interactive graph of cast, director and genres, and graph-powered recommendations
 - Dark and light themes, responsive down to phone width
 - Operations are typed end to end by GraphQL Code Generator; the poster art is generated, so there are no image assets
