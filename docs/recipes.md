@@ -9,8 +9,10 @@ Example: show `country` on the movie page after adding it to the server schema.
 1. Server first: add the field to `schema/schema.graphql` and restart (server recipe "Add a field").
 2. In `src/pages/MovieDetail.tsx`, add `country` to the fields in the `graphql()` query.
 3. Run `npm run codegen`. It fails if the field does not exist on the server.
-4. Use it in the JSX: `{movie.country && <p>{movie.country}</p>}`.
-5. Check: `npm run typecheck`, then open `/movies/Inception`. Add a unit test if you added logic.
+4. Use it in the JSX. On `MovieDetail.tsx` the facts are rows of a definition list, so follow that: add `{movie.country && (<><dt>Country</dt><dd>{movie.country}</dd></>)}` inside the `<dl className="facts">`.
+5. Check: `npm run typecheck`, then open a movie page (for example `/movies/Inception` on the standard stack at http://localhost:3000, or your own web port) and look at it. Add a unit test if you added logic. To make the field editable, also follow "Add a field to the forms" below.
+
+If your server runs somewhere other than http://localhost:4000, run codegen with `GRAPHQL_URL=http://host:port/graphql npm run codegen`.
 
 ## Add a filter facet
 

@@ -35,6 +35,8 @@ Set `VITE_GRAPHQL_URL` to use a different server (it must be reachable from the 
 | [Testing](docs/testing.md) | Type checks, codegen, unit tests, browser checks |
 | [e2e/README.md](e2e/README.md) | Running the browser end-to-end checks |
 
+`npm ci` prints `npm warn install-scripts` notices; they are harmless.
+
 Working with a coding agent? Start with [AGENTS.md](AGENTS.md).
 
 The movie data is sample data with approximate ratings. Last verified: v0.5.0 against grandstack-server v0.6.0.
