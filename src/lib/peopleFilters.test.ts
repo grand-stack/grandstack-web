@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  buildPeopleSort, buildPeopleWhere, emptyPeopleFilters, initials, parsePeopleFilters, serializePeopleFilters,
+  buildPeopleSort, buildPeopleWhere, emptyPeopleFilters, parsePeopleFilters, serializePeopleFilters,
 } from "./peopleFilters";
 
 describe("people filters", () => {
@@ -21,11 +21,5 @@ describe("people filters", () => {
   it("sorts directors by directed count first", () => {
     expect(buildPeopleSort({ ...emptyPeopleFilters, role: "director" })[0]).toEqual({ directedCount: "DESC" });
     expect(buildPeopleSort({ ...emptyPeopleFilters, sort: "name" })).toEqual([{ name: "ASC" }]);
-  });
-  it("makes initials", () => {
-    expect(initials("Tom Hanks")).toBe("TH");
-    expect(initials("Andre the Giant")).toBe("AG");
-    expect(initials("Cher")).toBe("C");
-    expect(initials("Robert Downey Jr.")).toBe("RD");
   });
 });

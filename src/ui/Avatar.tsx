@@ -1,5 +1,5 @@
-import { hash } from "../poster/Poster";
-import { initials } from "../lib/peopleFilters";
+import { hash } from "../lib/hash";
+import { initials } from "../lib/initials";
 
 /** Deterministic initials avatar, generated from the name. */
 export function Avatar({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" | "xl" }) {

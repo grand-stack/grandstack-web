@@ -1,15 +1,11 @@
+import { hash } from "../lib/hash";
+
 /** Deterministic generated poster art. No images: the look comes from the title and primary genre. */
 const GENRE_HUE: Record<string, number> = {
   "Sci-Fi": 205, Action: 12, Drama: 265, Romance: 335, Comedy: 42, Adventure: 150, Crime: 0, Thriller: 225,
   Biography: 28, History: 35, Mystery: 250, Horror: 350, Fantasy: 290, Animation: 175, War: 95, Western: 30,
   Musical: 315, Sport: 120,
 };
-
-export function hash(s: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
-  return h >>> 0;
-}
 
 export function posterStyle(title: string, genre?: string) {
   const h = hash(title);

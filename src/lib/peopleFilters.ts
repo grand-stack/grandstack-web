@@ -64,11 +64,3 @@ export function buildPeopleSort(f: PeopleFilters): PersonSort[] {
     ? [{ directedCount: "DESC" }, { actedCount: "DESC" }, { name: "ASC" }]
     : [{ actedCount: "DESC" }, { directedCount: "DESC" }, { name: "ASC" }];
 }
-
-export function initials(name: string): string {
-  const parts = name.replace(/[.,]/g, "").split(/\s+/).filter((w) => w && !/^(jr|sr|ii|iii)$/i.test(w));
-  if (parts.length === 0) return "?";
-  const first = parts[0][0];
-  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
-  return (first + last).toUpperCase();
-}

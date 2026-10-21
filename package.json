@@ -8,7 +8,9 @@
     "preview": "vite preview",
     "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "e2e": "node e2e/run.mjs",
+    "docs:check": "node scripts/check-links.mjs"
   },
   "license": "Apache-2.0",
   "type": "module",
@@ -29,6 +31,7 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.2",
+    "puppeteer-core": "25.15.0",
     "typescript": "7.0.2",
     "vite": "8.3.5",
     "vitest": "5.0.5"

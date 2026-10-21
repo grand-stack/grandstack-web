@@ -1,0 +1,52 @@
+# Recipes
+
+Step-by-step changes to the web app. Run commands from the repo root of `grandstack-web` with the stack running (`docker compose up` in the `grandstack` repo) so codegen can read the live schema. Each recipe ends with how to check it.
+
+## Show a new field from the schema
+
+Example: show `country` on the movie page after adding it to the server schema.
+
+1. Server first: add the field to `schema/schema.graphql` and restart (server recipe "Add a field").
+2. In `src/pages/MovieDetail.tsx`, add `country` to the fields in the `graphql()` query.
+3. Run `npm run codegen`. It fails if the field does not exist on the server.
+4. Use it in the JSX: `{movie.country && <p>{movie.country}</p>}`.
+5. Check: `npm run typecheck`, then open `/movies/Inception`. Add a unit test if you added logic.
+
+## Add a filter facet
+
+Example: filter movies by minimum year.
+
+1. In `src/lib/filters.ts`: add the field to `Filters`, read it in `parseFilters`, write it in `serializeFilters`, count it in `activeCount`, and add its clause in `buildWhere` (use the `omit` parameter if the facet needs counts that ignore itself).
+2. In `src/search/FilterSidebar.tsx`: add the control and call `onChange({ minYear: ... })`.
+3. In `src/pages/Results.tsx`: show a chip for it with a remove handler, and include it in "Clear all" (add it to `emptyFilters` with an explicit `undefined`, or spreading will not clear it).
+4. Add cases to `src/lib/filters.test.ts` (URL round trip, where clause, clearing).
+5. Check: `npm test`, then open `/movies?...` with the new parameter and confirm the count and chips; reload to confirm it persists.
+
+## Add a field to the forms
+
+1. Add it to `MovieFormState` and `emptyMovieForm` in `src/forms/model.ts`; validate it in `validateMovie`.
+2. Include it in `buildCreateInput` and in `buildUpdateInput` (a changed scalar is `{ set: value }`, blank is `{ set: null }`).
+3. Add the input in `src/forms/MovieForm.tsx` using the `field(...)` and `fieldError(...)` helpers.
+4. Load it into the edit form in `src/pages/MovieEdit.tsx` (query it and map it to the form state).
+5. Add cases to `src/forms/model.test.ts`. Check: `npm test` and a manual create and edit.
+
+## Add a page
+
+1. Create `src/pages/Thing.tsx` with its query written using `graphql()`.
+2. Add a `<Route>` in `src/App.tsx` (and a nav link if needed).
+3. Run `npm run codegen` and `npm run typecheck`.
+4. Operation names must be **unique across the whole app** (codegen fails on duplicates), so name queries after what they do (`PeopleBrowse`, not `People`, if `People` exists).
+
+## Add another entity type (for example Studio)
+
+1. Server: add the type and relationships (see `docs/schema-guide.md` in the `grandstack-server` repo).
+2. Copy the People pattern: `peopleFilters.ts` -> `studioFilters.ts`, `People.tsx` -> `Studios.tsx`, `PersonCard.tsx` -> `StudioCard.tsx`, and the detail and form pages. Keep the URL-state and diff-update patterns.
+3. Add routes, run codegen, add tests next to each pure module.
+
+## Before you commit
+
+```sh
+npm run typecheck && npm test && npm run docs:check
+# with the stack running and freshly seeded:
+npm run e2e
+```

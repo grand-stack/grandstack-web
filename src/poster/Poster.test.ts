@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { hash, posterStyle } from "./Poster";
+import { hash } from "../lib/hash";
+import { posterStyle } from "./Poster";
 
 describe("poster", () => {
   it("is deterministic per title", () => {
