@@ -65,7 +65,8 @@ check("rating filter in URL", /[?&]r=/.test(page.url()), page.url());
 // person typeahead
 await page.type('input[aria-label="Search for a cast member or director"]', "Hanks");
 await page.waitForSelector(".suggest button");
-await page.click(".suggest button");
+// click inside the page: the suggestion list re-renders as results arrive, which detaches an element handle (a CI flake)
+await page.evaluate(() => document.querySelector(".suggest button").click());
 await settle();
 check("person filter applied", page.url().includes("p=Tom"), page.url());
 // clear all
