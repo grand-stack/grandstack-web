@@ -40,3 +40,7 @@ Set `VITE_GRAPHQL_URL` to use a different server (it must be reachable from the 
 Working with a coding agent? Start with [AGENTS.md](AGENTS.md).
 
 The movie data is sample data with approximate ratings. Last verified: v0.5.1 against grandstack-server v0.7.1.
+
+## Licence
+
+Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE). The same licence applies to every GRANDstack repository and to [grandstack.ai](https://grandstack.ai).
