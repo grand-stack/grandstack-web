@@ -2,6 +2,8 @@
 
 Four layers, from fastest to most realistic.
 
+> **Where to run this.** Commands on this page that start with `npm`, `node` or `docker build` run inside a clone of this repository: `git clone https://github.com/grand-stack/grandstack-web`, then `cd grandstack-web` (Node 22 or later; run `npm ci` once). Commands that need the running stack use the `grandstack` repository's compose files: see the [quickstart](https://grandstack.ai/quickstart/).
+
 ## 1. Type checking
 
 `npm run typecheck` (also run by `npm run build`) runs `tsc --noEmit`. Because every GraphQL document is typed from the schema, using a field that is not in the query fails here.
