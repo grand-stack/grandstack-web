@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Button } from "../ui";
 import { PublicEditBanner } from "../ui/PublicEditBanner";

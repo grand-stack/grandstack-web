@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
 import { useQuery } from "urql";
 import { graphql } from "../graphql/generated";

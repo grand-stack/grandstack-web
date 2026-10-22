@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { useNavigate } from "react-router";
 import { useMutation } from "urql";
 import { emptyPersonForm, friendlyError } from "../forms/model";

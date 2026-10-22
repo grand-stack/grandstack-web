@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import type { MovieCreateInput, MovieUpdateInput } from "../graphql/generated/graphql";
 
 export interface PersonRef {

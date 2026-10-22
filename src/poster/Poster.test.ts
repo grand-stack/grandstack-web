@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { describe, expect, it } from "vitest";
 import { hash } from "../lib/hash";
 import { posterStyle } from "./Poster";

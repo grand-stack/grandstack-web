@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import puppeteer from "puppeteer-core";
 import { mkdirSync } from "node:fs";
 // Browser end-to-end checks. Needs the whole stack running (see e2e/README.md).

@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import { Poster } from "../poster/Poster";

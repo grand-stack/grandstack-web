@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import type { MovieSort, MovieWhere } from "../graphql/generated/graphql";
 
 export type SortKey = "rating" | "newest" | "oldest" | "title" | "runtime";

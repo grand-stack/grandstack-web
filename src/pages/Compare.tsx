@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { Link } from "react-router";
 import { useQuery } from "urql";
 import { graphql } from "../graphql/generated";

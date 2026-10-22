@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 // Needs the server running (docker compose up in ../grandstack). Output is committed so a clone builds without it.

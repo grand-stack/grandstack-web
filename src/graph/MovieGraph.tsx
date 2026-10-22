@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { useMemo } from "react";
 import { useNavigate } from "react-router";
 import { GraphView, type GLink, type GNode } from "./GraphView";

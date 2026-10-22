@@ -1,3 +1,5 @@
+// Copyright (c) "Neo4j"
+// Neo4j Sweden AB [http://neo4j.com]
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
 const ForceGraph2D = lazy(() => import("react-force-graph-2d"));
