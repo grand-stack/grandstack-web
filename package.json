@@ -1,6 +1,6 @@
 {
   "name": "grandstack-web",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "React client for grandstack-server with generated typed GraphQL operations",
   "scripts": {
     "dev": "vite",
