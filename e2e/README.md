@@ -22,3 +22,5 @@ The script exits non-zero if a check fails or the run crashes.
 - **It is tied to the bundled sample data** (152 movies, 464 people, specific people such as Tom Hanks). Run it against a freshly seeded database. It creates records whose names start with `ZZ` and deletes them at the end; if a run is interrupted, delete anything starting with `ZZ` with a GraphQL `deleteMovies`/`deletePeople`/`deleteGenres` mutation.
 - **It relaunches Chrome every few navigations.** In the environment this was built in, headless Chrome died after about 14 page loads even with a tiny JavaScript heap (so not an application leak). Each page load beyond a handful starts a fresh browser to avoid it. If your Chrome is stable you can raise the limit near the top of `run.mjs`.
 - **It writes data.** There is no authentication, so it works, but do not point it at a database you care about.
+
+`SETTLE_SCALE` (default 1) multiplies every fixed pause in the script; set it higher on a slow machine (the integration workflow uses 3 on CI).

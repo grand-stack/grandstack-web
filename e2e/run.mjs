@@ -34,7 +34,9 @@ process.on('uncaughtException', (e) => { console.log(results.join('\n')); consol
 const check = (name, ok, extra = "") => { results.push(`${ok ? "PASS" : "FAIL"} ${name} ${extra}`); };
 const text = (sel) => page.$eval(sel, (e) => e.textContent.trim());
 const fill = async (el, v) => { await el.evaluate((e) => { e.focus(); e.select(); }); await page.keyboard.press('Backspace'); if (v) await el.type(v); };
-const settle = (ms = 700) => new Promise((r) => setTimeout(r, ms));
+// SETTLE_SCALE stretches every fixed pause (CI machines are slower than a laptop; integration.sh sets it)
+const SETTLE_SCALE = Number(process.env.SETTLE_SCALE ?? 1);
+const settle = (ms = 700) => new Promise((r) => setTimeout(r, ms * SETTLE_SCALE));
 
 await page.goto(B, { waitUntil: "networkidle0" });
 check("home shows cards", (await page.$$(".card")).length >= 10);
@@ -192,7 +194,8 @@ await page.type(".form label:nth-of-type(1) input", "ZZ Person");
 await page.type(".form label:nth-of-type(2) input", "1980");
 await page.click('button[type="submit"]');
 await page.waitForFunction(() => location.pathname === "/people/ZZ%20Person", { timeout: 8000 }).then(() => check("create person", true), () => check("create person", false, page.url()));
-await settle(600);
+// wait for the page to load the new person (a fixed pause was too short on a slow CI machine)
+await page.waitForFunction(() => document.body.innerText.includes("Born 1980"), { timeout: 8000 }).catch(() => {});
 check("new person shows born", (await page.evaluate(() => document.body.innerText)).includes("Born 1980"));
 await page.goto(`${B}/people/ZZ%20Person/edit`, { waitUntil: "networkidle0" });
 await page.waitForSelector(".form input");
